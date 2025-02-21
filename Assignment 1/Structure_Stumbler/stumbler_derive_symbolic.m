@@ -7,7 +7,7 @@ syms alpha2 beta2 gamma1 gamma2 gamma3 gamma4 real;
 % 2) Angular velocities
 syms alpha2dot beta2dot gamma1dot gamma2dot gamma3dot gamma4dot real;
 % 3) Limb lengths
-syms L_foot L_shank L_thigh L_hip L_stance H real;
+syms L_foot L_shank L_thigh L_hip L_stance real;
 % 4) Centers of gravity of limbs
 syms M_thigh M_shank M_foot M_HAT; %Not sure what to do with this
 
@@ -16,14 +16,15 @@ syms M_thigh M_shank M_foot M_HAT; %Not sure what to do with this
 % in the same folder as this file. (rotz, roty, rotx)
 %finish the locations yourself. How many should you define?
 
+% Xmstance    = rotz(gamma1) * [0; 0.553*L_stance; 0];
 Xlefthip    = rotz(gamma1) * [0; L_stance; 0];
 Xrighthip   = Xlefthip + [0; 0; L_hip];
 Xmhip       = 0.5*(Xlefthip + Xrighthip);
-Xmthigh     = Xrighthip + rotz(gamma2) * rotx(alpha2) * roty(beta2) * [0; -L_thigh/3; 0];
+Xmthigh     = Xrighthip + rotz(gamma2) * rotx(alpha2) * roty(beta2) * [0; -0.433*L_thigh; 0];
 Xknee       = Xrighthip + rotz(gamma2) * rotx(alpha2) * roty(beta2) * [0; -L_thigh; 0];
-Xmshank     = Xknee + rotz(gamma3) * [0; -L_shank/3; 0];
+Xmshank     = Xknee + rotz(gamma3) * [0; -0.433*L_shank; 0];
 Xankle      = Xknee + rotz(gamma3) * [0; -L_shank; 0];
-Xmfoot      = Xankle + rotz(gamma4) * [L_foot/3; 0; 0];
+Xmfoot      = Xankle + rotz(gamma4) * [L_foot/2; 0; 0];
 Xtoe        = Xankle + rotz(gamma4) * [L_foot; 0; 0];
 
 %% Define state vector and state derivative vector

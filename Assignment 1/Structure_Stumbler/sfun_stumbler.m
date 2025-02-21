@@ -7,24 +7,26 @@ global model
 % (hint; consider the dimensions (single value/vectors) of the variables)
 
 % Masses
-model.mstance   = ;   % mass stance leg [kg]
-model.mhip      = ;   % mass trunk on hip [kg
-model.mthigh    = ;   % mass thigh swing leg [kg]
-model.mshank    = ;   % mass shank swing leg [kg]
-model.mfoot     = ;   % mass foot swing leg [kg]
+model.mtotal    = 80;  % Total mass of the subject [kg]
+model.mstance   = 0.161*model.mtotal;   % mass stance leg [kg]
+model.mhip      = 0.678*model.mtotal;   % mass trunk on hip [kg
+model.mthigh    = 0.1*model.mtotal;   % mass thigh swing leg [kg]
+model.mshank    = 0.0465*model.mtotal;   % mass shank swing leg [kg]
+model.mfoot     = 0.0145*model.mtotal;   % mass foot swing leg [kg]
 
 % Lengths
-model.Lstance   = ;% [m]
-model.Lhip      = ;% [m]
-model.Lthigh    = ;% [m]
-model.Lshank    = ;% [m]
-model.Lfoot     = ;% [m]
+model.Ltotal    = 1.8; % [m]
+model.Lstance   = 0.53*model.Ltotal ; % [m] We considered the ankle height for the stance leg
+model.Lhip      = 0.191*model.Ltotal ; % [m]
+model.Lthigh    = (0.530 - 0.285)*model.Ltotal ; % [m]
+model.Lshank    = 0.285 * model.Ltotal; % [m]
+model.Lfoot     = 0.152 * model.Ltotal; % [m]
 
 % Centres of gravity with respect to proximal joint
-model.cgStance =  ;% [m]
-model.cgThigh  =  ;% [m]
-model.cgShank  =  ;% [m]
-model.cgFoot   =  ;% [m]
+model.cgStance =  0.447*model.Lstance;% [m]
+model.cgThigh  =  0.433*model.Lthigh;% [m]
+model.cgShank  =  0.433*model.Lshank;% [m]
+model.cgFoot   =  0.50*model.Lfoot;% [m]
 
 % Joint stiffness
 model.kjoint    = [0; 0; 0; 0; 0; 0];
@@ -33,7 +35,7 @@ model.kjoint    = [0; 0; 0; 0; 0; 0];
 model.bjoint    = [0; 0; 0; 0; 0; 0];
 
 % Gravity
-model.g         = ; % [Nm/s^2]
+model.g         = 9.81; % [Nm/s^2]
 
 % % Part B: brick dimensions
 % xbrick          = 0;
@@ -104,12 +106,12 @@ function [sys,x0,str,ts]=mdlInitializeSizes
 
 % Init sizes
 sizes = simsizes;
-sizes.NumContStates  = ;     % Two times the number of generalized coordinates
+sizes.NumContStates  = 12;      % Two times the number of generalized coordinates (+3 since we take Mstance into account)
 sizes.NumDiscStates  = 0;
-sizes.NumOutputs     = ;       % All joint angles
-sizes.NumInputs      = ;       % All joint torques
+sizes.NumOutputs     = 6;       % All joint angles (alpha2, beta2, gamma1, gamma2, gamma3, gamma4)
+sizes.NumInputs      = 6;       % All joint torques
 sizes.DirFeedthrough = 0;
-sizes.NumSampleTimes = ;       % At least one sample time is needed
+sizes.NumSampleTimes = 1;       % At least one sample time is needed
 sys = simsizes(sizes);
 
 % Initial angles [rad]
@@ -131,8 +133,8 @@ gamma3dot   = ;
 gamma4dot   = ;
 
 % States and state derivatives
-q       = ;
-qdot    = ;
+q       = [alpha2; beta2; gamma1; gamma2; gamma3; gamma4];
+qdot    = [alpha2dot; beta2dot; gamma1dot; gamma2dot; gamma3dot; gamma4dot];
 
 x0  = [q; qdot];
 
@@ -178,8 +180,12 @@ cgFoot      = model.cgFoot;     % [m]
 g           = model.g;
 
 %% Determine mass matrix
-mass = 
-    
+mass = diag(mhip;
+    mhip;
+    mthigh;
+    mshank;
+    mfoot)
+
 %% Get state variables from state vector x
 q           = x(1:6);
 qdot        = x(7:12);
