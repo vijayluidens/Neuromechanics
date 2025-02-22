@@ -16,24 +16,25 @@ syms M_thigh M_shank M_foot M_HAT; %Not sure what to do with this
 % in the same folder as this file. (rotz, roty, rotx)
 %finish the locations yourself. How many should you define?
 
-Xmstance    = rotz(gamma1) * [0; 0.553*L_stance; 0];
+% Xmstance    = rotz(gamma1) * [0; 0.553*L_stance; 0];
 Xlefthip    = rotz(gamma1) * [0; L_stance; 0];
 Xrighthip   = Xlefthip + [0; 0; L_hip];
 Xmhip       = 0.5*(Xlefthip + Xrighthip);
-Xmthigh     = Xrighthip + rotz(gamma2) * rotx(alpha2) * roty(beta2) * [0; -0.433*L_thigh; 0];
-Xknee       = Xrighthip + rotz(gamma2) * rotx(alpha2) * roty(beta2) * [0; -L_thigh; 0];
-Xmshank     = Xknee + rotz(gamma3) * [0; -0.433*L_shank; 0];
-Xankle      = Xknee + rotz(gamma3) * [0; -L_shank; 0];
-Xmfoot      = Xankle + rotz(gamma4) * [L_foot/2; 0; 0];
-Xtoe        = Xankle + rotz(gamma4) * [L_foot; 0; 0];
+Xmthigh     = Xrighthip + rotz(gamma1) * rotz(gamma2) * rotx(alpha2) * roty(beta2) * [0; -0.433*L_thigh; 0];
+Xknee       = Xrighthip + rotz(gamma1) * rotz(gamma2) * rotx(alpha2) * roty(beta2) * [0; -L_thigh; 0];
+Xmshank     = Xknee + rotz(gamma1) * rotz(gamma2) * rotx(alpha2) * roty(beta2) * rotz(gamma3) * [0; -0.433*L_shank; 0];
+Xankle      = Xknee + rotz(gamma1) * rotz(gamma2) * rotx(alpha2) * roty(beta2) * rotz(gamma3) * [0; -L_shank; 0];
+Xmfoot      = Xankle + rotz(gamma1) * rotz(gamma2) * rotx(alpha2) * roty(beta2) * rotz(gamma3) * rotz(gamma4) * [L_foot/2; 0; 0];
+Xtoe        = Xankle + rotz(gamma1) * rotz(gamma2) * rotx(alpha2) * roty(beta2) * rotz(gamma3) * rotz(gamma4) * [L_foot; 0; 0];
 
 %% Define state vector and state derivative vector
 
-q       = [alpha2; beta2; gamma1; gamma2; gamma3; gamma4];
-qdot    = [alpha2dot; beta2dot; gamma1dot; gamma2dot; gamma3dot; gamma4dot];
+q       = [gamma1, alpha2; beta2; gamma2; gamma3; gamma4];
+qdot    = [gamma1dot; alpha2dot; beta2dot; gamma2dot; gamma3dot; gamma4dot];
 
 %% Transformation function Ti, its derivative Ti_k and convective acceleration.
-Ti      = [Xmhip; Xmthigh; Xmshank; Xmfoot];
+Ti      = [Xlefthip; Xmhip; Xrighthip; Xmthigh; Xknee; Xmshank;
+Xankle; Xmfoot; Xtoe];
 Ti_k    = jacobian(Ti, q);
 gconv   = jacobian(Ti_k * qdot, q) * qdot;
 

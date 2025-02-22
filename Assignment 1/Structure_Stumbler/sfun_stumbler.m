@@ -133,8 +133,8 @@ gamma3dot   = ;
 gamma4dot   = ;
 
 % States and state derivatives
-q       = [alpha2; beta2; gamma1; gamma2; gamma3; gamma4];
-qdot    = [alpha2dot; beta2dot; gamma1dot; gamma2dot; gamma3dot; gamma4dot];
+q       = [gamma1; alpha2; beta2; gamma2; gamma3; gamma4];
+qdot    = [gamma1dot; alpha2dot; beta2dot; gamma2dot; gamma3dot; gamma4dot];
 
 x0  = [q; qdot];
 
