@@ -180,11 +180,7 @@ cgFoot      = model.cgFoot;     % [m]
 g           = model.g;
 
 %% Determine mass matrix
-mass = diag(mhip;
-    mhip;
-    mthigh;
-    mshank;
-    mfoot)
+mass = diag([0;0;0;mhip;mhip;mhip;0;0;0;mthigh;mthigh;mthigh;0;0;0;mshank;mshank;mshank;0;0;0;mfoot;mfoot;mfoot;0;0;0]);
 
 %% Get state variables from state vector x
 q           = x(1:6);
@@ -230,17 +226,17 @@ symb_Ti_k;
 
 %% Determine state derivatives
 % Calculate reduced mass matrix Mred 
-Mred = ;
+Mred = Ti_k' * mass * Ti_k;
 
 % Calculate convective acceleration 
 symb_gconv;
 
 % Reduced force vector 
-f = ;
+f = [];
 Fred = ;
 
 % Calcultate derivatives qddot 
-qddot = ;
+qddot = Mred \ Fred;
 
 sys = [qdot ; qddot];
 

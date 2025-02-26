@@ -9,7 +9,7 @@ syms alpha2dot beta2dot gamma1dot gamma2dot gamma3dot gamma4dot real;
 % 3) Limb lengths
 syms L_foot L_shank L_thigh L_hip L_stance real;
 % 4) Centers of gravity of limbs
-syms M_thigh M_shank M_foot M_HAT; %Not sure what to do with this
+syms cgStance cgThigh cgShank cgFoot; 
 
 %% Define joint and mass locations
 % Make sure that the required rotation matrices are saved as a function
