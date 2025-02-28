@@ -29,10 +29,10 @@ model.cgShank  =  0.433*model.Lshank;% [m]
 model.cgFoot   =  0.50*model.Lfoot;% [m]
 
 % Joint stiffness
-model.kjoint    = [0; 0; 0; 0; 0; 50];
+model.kjoint    = [0; 0; 0; 0; 10 ; 100]; %20 50
 
 % Joint damping
-model.bjoint    = [0; 0; 0; 0; 0; 5];
+model.bjoint    = [0; 0; 0; 0; 0.5; 5];
 
 % Gravity
 model.g         = 9.81; % [Nm/s^2]
