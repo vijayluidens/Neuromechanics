@@ -29,10 +29,10 @@ model.cgShank  =  0.433*model.Lshank;% [m]
 model.cgFoot   =  0.50*model.Lfoot;% [m]
 
 % Joint stiffness
-model.kjoint    = [0; 0; 0; 0; 0; 0];
+model.kjoint    = [0; 0; 0; 0; 0; 50];
 
 % Joint damping
-model.bjoint    = [0; 0; 0; 0; 0; 0];
+model.bjoint    = [0; 0; 0; 0; 0; 5];
 
 % Gravity
 model.g         = 9.81; % [Nm/s^2]
@@ -116,21 +116,21 @@ sys = simsizes(sizes);
 
 % Initial angles [rad]
 % Define what the initial values of the angles are
-gamma1  = ;
-alpha2  = ;
-beta2   = ;
-gamma2  = ;
-gamma3  = ;
-gamma4  = ;
+gamma1  = deg2rad(25);
+alpha2  = 0;
+beta2   = 0;
+gamma2  = deg2rad(-50);
+gamma3  = 0;
+gamma4  = deg2rad(25);
 
 % Initial angular velocities [rad/s]
 % Define what the initial values of the angular velocities are
-gamma1dot   = ;
-alpha2dot   = ;
-beta2dot    = ;
-gamma2dot   = ;
-gamma3dot   = ;
-gamma4dot   = ;
+gamma1dot   = -1.75;
+alpha2dot   = 0;
+beta2dot    = 0;
+gamma2dot   = 0;
+gamma3dot   = 0;
+gamma4dot   = 0;
 
 % States and state derivatives
 q       = [gamma1; alpha2; beta2; gamma2; gamma3; gamma4];
@@ -180,7 +180,7 @@ cgFoot      = model.cgFoot;     % [m]
 g           = model.g;
 
 %% Determine mass matrix
-mass = diag([0;0;0;mhip;mhip;mhip;0;0;0;mthigh;mthigh;mthigh;0;0;0;mshank;mshank;mshank;0;0;0;mfoot;mfoot;mfoot;0;0;0]);
+mass = diag([0,0,0,mhip,mhip,mhip,0,0,0,mthigh,mthigh,mthigh,0,0,0,mshank,mshank,mshank,0,0,0,mfoot,mfoot,mfoot,0,0,0]);
 
 %% Get state variables from state vector x
 q           = x(1:6);
@@ -212,10 +212,10 @@ bjoint      = model.bjoint;
 % Active stiffness and damping
 % Create if statement, which prevents the knee to overstretch by adapting
 % the stiffness and damping
-% if gamma3 > 0 % Knee overstretched
-%     kjoint(5) = ;
-%     bjoint(5) = ;
-% end
+if gamma3 > 0 % Knee overstretched
+    kjoint(5) = 1000;
+    bjoint(5) = 100;
+end
 
 %% Obtain transformation vector Ti and its derivatives Ti_k and Ti_km
 symb_Ti;
@@ -232,8 +232,8 @@ Mred = Ti_k' * mass * Ti_k;
 symb_gconv;
 
 % Reduced force vector 
-f = [];
-Fred = ;
+f = mass * [0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0].';
+Fred = Ti_k.' * (f - mass * gconv) - (bjoint .* qdot) - (kjoint .* q) + u;
 
 % Calcultate derivatives qddot 
 qddot = Mred \ Fred;

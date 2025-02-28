@@ -28,20 +28,25 @@ cgFoot      = model.cgFoot;     % [m]
 for jj = [3, 1]
     for kk = 1:jj:length(X_out.time)
         % Get angles from the correct index of X_out.signals.values
-        % Example gamma1 = X_out.signals.values(kk,1);
-    
-        
-        
+        % Example gamma1 = X_out.signals.values(kk,1)
+
+        gamma1 = X_out.signals.values(kk,1);
+        alpha2 = X_out.signals.values(kk,2);
+        beta2  = X_out.signals.values(kk,3);
+        gamma2 = X_out.signals.values(kk,4);
+        gamma3 = X_out.signals.values(kk,5);
+        gamma4 = X_out.signals.values(kk,6);
+
         symb_Ti;
         % Mass locations (Hint; use values from Ti)
-        xmass = Ti([]);
-        ymass = Ti([]);
-        zmass = Ti([]);
+        xmass = Ti([4, 10, 16, 22]);
+        ymass = Ti([5, 11, 17, 23]);
+        zmass = Ti([6, 12, 18, 24]);
 
         % Joint locations (Hint; use values from Ti)
-        xjoint = [0; Ti([])];
-        yjoint = [0; Ti([])];
-        zjoint = [0; Ti([])];
+        xjoint = [0; Ti([1, 7, 13, 19, 25])];
+        yjoint = [0; Ti([2, 8, 14, 20, 26])];
+        zjoint = [0; Ti([3, 9, 15, 21, 27])];
 
         subplot(223) % Front view
         plot([0; Ti(3:3:end)], [0; Ti(2:3:end)], 'b-', 'linewidth', 2); hold on
