@@ -29,24 +29,24 @@ model.cgShank  =  0.433*model.Lshank;% [m]
 model.cgFoot   =  0.50*model.Lfoot;% [m]
 
 % Joint stiffness
-model.kjoint    = [0; 0; 0; 0; 10 ; 100]; %20 50
+model.kjoint    = [10; 0; 0; 10; 8 ; 100]; %20 50
 
 % Joint damping
-model.bjoint    = [0; 0; 0; 0; 0.5; 5];
+model.bjoint    = [3; 0; 0; 1.5; 5; 5];
 
 % Gravity
 model.g         = 9.81; % [Nm/s^2]
 
-% % Part B: brick dimensions
-% xbrick          = 0;
-% model.bx1       = xbrick;
-% model.bx2       = xbrick + 0.06;
-% model.by1       = 0;
-% model.by2       = 0.10;
-% model.bz1       = 0.17;
-% model.bz2       = 0.45;
-% model.bbrick    = 100;
-% model.kbrick    = 1000;
+% Part B: brick dimensions
+xbrick          = 0;
+model.bx1       = xbrick;
+model.bx2       = xbrick + 0.06;
+model.by1       = 0;
+model.by2       = 0.10;
+model.bz1       = 0.17;
+model.bz2       = 0.45;
+model.bbrick    = 100;
+model.kbrick    = 1000;
 
 %% 
 switch flag,
@@ -224,6 +224,24 @@ symb_Ti_k;
 %% Detect collision with brick
 % Implement the collision with the brick and calculate the resulting force.
 
+toe_pos = Ti(25:27);
+toe_vel = Ti_k(25:27,:)*qdot;
+Fbrick = 0;
+    if toe_pos(1) > model.bx1 && toe_pos(1) < model.bx2
+        if toe_pos(2) < model.by2
+            if toe_pos(3) > model.bz1 && toe_pos(3) < model.bz2
+ 
+            % force from brick: F = -k*x - c*dx 
+            Fbrick = (-model.kbrick*toe_pos(1) - model.bbrick*toe_vel(1));
+            end
+        end
+% elseif toe_pos(1) > model.bx2 && toe_pos(2) < model.by1
+% Fbrick = (-model.kbrick*toe_pos(1) - model.bbrick*toe_vel(1));
+    else
+    Fbrick = 0;
+end
+
+
 %% Determine state derivatives
 % Calculate reduced mass matrix Mred 
 Mred = Ti_k' * mass * Ti_k;
@@ -232,8 +250,10 @@ Mred = Ti_k' * mass * Ti_k;
 symb_gconv;
 
 % Reduced force vector 
-f = mass * [0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0].';
-Fred = Ti_k.' * (f - mass * gconv) - (bjoint .* qdot) - (kjoint .* q) + u;
+f1 = mass * [0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0,0,-g,0].';
+fb = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0, 0,0,0, Fbrick,0,0].';
+f2 = f1+fb;
+Fred = Ti_k.' * (f2 - mass * gconv) - (bjoint .* qdot) - (kjoint .* q) + u;
 
 % Calcultate derivatives qddot 
 qddot = Mred \ Fred;

@@ -33,8 +33,7 @@ q       = [gamma1; alpha2; beta2; gamma2; gamma3; gamma4];
 qdot    = [gamma1dot; alpha2dot; beta2dot; gamma2dot; gamma3dot; gamma4dot];
 
 %% Transformation function Ti, its derivative Ti_k and convective acceleration.
-Ti      = [Xlefthip; Xmhip; Xrighthip; Xmthigh; Xknee; Xmshank;
-Xankle; Xmfoot; Xtoe];
+Ti      = [Xlefthip; Xmhip; Xrighthip; Xmthigh; Xknee; Xmshank; Xankle; Xmfoot; Xtoe];
 Ti_k    = jacobian(Ti, q);
 gconv   = jacobian(Ti_k * qdot, q) * qdot;
 

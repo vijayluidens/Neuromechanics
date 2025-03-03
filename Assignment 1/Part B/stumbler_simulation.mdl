@@ -43,8 +43,8 @@ __MWOPC_PART_BEGIN__ /metadata/coreProperties.xml
   <dcterms:created xsi:type="dcterms:W3CDTF">2005-11-15T10:45:15Z</dcterms:created>
   <dc:creator>Marleen</dc:creator>
   <cp:lastModifiedBy>vijay</cp:lastModifiedBy>
-  <dcterms:modified xsi:type="dcterms:W3CDTF">2025-02-28T15:57:14Z</dcterms:modified>
-  <cp:revision>17.0</cp:revision>
+  <dcterms:modified xsi:type="dcterms:W3CDTF">2025-03-03T08:47:41Z</dcterms:modified>
+  <cp:revision>17.2</cp:revision>
   <cp:version>R2024b</cp:version>
 </cp:coreProperties>
 
@@ -117,13 +117,13 @@ __MWOPC_PART_BEGIN__ /simulink/blockdiagram.xml
 <?xml version="1.0" encoding="utf-8"?>
 <ModelInformation Version="1.0">
   <Model>
-    <P Name="ModelUUID">153f5030-63d0-4f28-bffc-902e531b622d</P>
+    <P Name="ModelUUID">87803dbe-5a38-495e-8c53-85bffcdf9551</P>
     <P Name="StopFcn">plot_stumbler</P>
     <P Name="LastSavedArchitecture">win64</P>
     <ConfigManagerSettings>
       <P Name="ModifiedByFormat">%&lt;Auto&gt;</P>
       <P Name="ModifiedDateFormat">%&lt;Auto&gt;</P>
-      <P Name="ModelVersionFormat">%&lt;AutoIncrement:17.0&gt;</P>
+      <P Name="ModelVersionFormat">%&lt;AutoIncrement:17.2&gt;</P>
     </ConfigManagerSettings>
     <EditorSettings>
       <P Name="LibraryLinkDisplay">none</P>
@@ -144,12 +144,7 @@ __MWOPC_PART_BEGIN__ /simulink/blockdiagram.xml
       <P Name="ConfigurableSubsystemUsage">warning</P>
     </EngineSettings>
     <ConcurrentExecutionSettings>
-      <Object PropName="DataTransfer" ObjectID="2" ClassName="Simulink.GlobalDataTransfer">
-        <P Name="DefaultTransitionBetweenSyncTasks" Class="char">Ensure deterministic transfer (maximum delay)</P>
-        <P Name="DefaultTransitionBetweenAsyncTasks" Class="char">Ensure data integrity only</P>
-        <P Name="DefaultTransitionBetweenContTasks" Class="char">Ensure deterministic transfer (minimum delay)</P>
-        <P Name="DefaultExtrapolationMethodBetweenContTasks" Class="char">None</P>
-      </Object>
+      <Object Reference="true" PropName="DataTransfer" ObjectID="2"/>
     </ConcurrentExecutionSettings>
     <System Ref="system_root"/>
   </Model>
@@ -951,7 +946,7 @@ __MWOPC_PART_BEGIN__ /simulink/plugins/sl_paper_props.xml
 	&lt;item class_id=&quot;1&quot; tracking_level=&quot;0&quot; version=&quot;0&quot;&gt;
 		&lt;first&gt;stumbler_simulation/PLOT RESULT&lt;/first&gt;
 		&lt;second class_id=&quot;2&quot; tracking_level=&quot;0&quot; version=&quot;0&quot;&gt;
-			&lt;count&gt;2&lt;/count&gt;
+			&lt;count&gt;3&lt;/count&gt;
 			&lt;item_version&gt;0&lt;/item_version&gt;
 			&lt;item class_id=&quot;3&quot; tracking_level=&quot;0&quot; version=&quot;0&quot;&gt;
 				&lt;first&gt;PaperType&lt;/first&gt;
@@ -960,6 +955,10 @@ __MWOPC_PART_BEGIN__ /simulink/plugins/sl_paper_props.xml
 			&lt;item&gt;
 				&lt;first&gt;PaperUnits&lt;/first&gt;
 				&lt;second&gt;centimeters&lt;/second&gt;
+			&lt;/item&gt;
+			&lt;item&gt;
+				&lt;first&gt;TiledPaperMargins&lt;/first&gt;
+				&lt;second&gt;[1.270000, 1.270000, 1.270000, 1.270000]&lt;/second&gt;
 			&lt;/item&gt;
 		&lt;/second&gt;
 	&lt;/item&gt;
@@ -972,6 +971,7 @@ __MWOPC_PART_BEGIN__ /simulink/plugins/sl_paper_props.xml
 &lt;/boost_serialization&gt;
 
 </P>
+  <P Name="TiledPaperMargins">[1.270000, 1.270000, 1.270000, 1.270000]</P>
 </sl_paper_props>
 
 __MWOPC_PART_BEGIN__ /simulink/ScheduleCore.xml
@@ -1173,14 +1173,15 @@ __MWOPC_PART_BEGIN__ /simulink/systems/system_root.xml
     <P Name="Position">[200, 290, 230, 320]</P>
     <P Name="ZOrder">3</P>
     <P Name="Time">0</P>
-    <P Name="Before">5</P>
+    <P Name="Before">3</P>
+    <P Name="After">-2</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Step" Name="gamma3" SID="15">
     <P Name="Position">[200, 365, 230, 395]</P>
     <P Name="ZOrder">2</P>
-    <P Name="Time">0</P>
-    <P Name="Before">-4</P>
+    <P Name="Time">0.15</P>
+    <P Name="Before">-5</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Step" Name="gamma4" SID="16">
@@ -1258,8 +1259,8 @@ __MWOPC_PART_BEGIN__ /simulink/windowsInfo.xml
         <P Name="LoadSaveID" Class="char">0</P>
         <P Name="Extents" Class="double">[1875.0, 477.0]</P>
         <P Name="ZoomFactor" Class="double">0.8</P>
-        <P Name="Offset" Class="double">[-320.43999999999903, 40.101178485494749]</P>
-        <P Name="SceneRectInView" Class="double">[-320.43999999999903, 40.101178485494749, 1875.0, 477.0]</P>
+        <P Name="Offset" Class="double">[-320.43999999999903, 73.741826939922532]</P>
+        <P Name="SceneRectInView" Class="double">[-320.43999999999903, 73.741826939922532, 1875.0, 477.0]</P>
       </Object>
       <Array PropName="DockComponentsInfo" Type="Simulink.DockComponentInfo" Dimension="1*2">
         <Object ObjectID="6">
@@ -1292,7 +1293,7 @@ __MWOPC_PART_BEGIN__ /simulink/windowsInfo.xml
       <Array PropName="PersistedApps" Type="Cell" Dimension="0*1"/>
       <P Name="WindowUuid" Class="char">7aa146d1-0ee3-492e-b7dc-ad5f6caff940</P>
     </Object>
-    <P Name="BDUuid" Class="char">26e69157-68ff-4a94-9580-5b95d7820523</P>
+    <P Name="BDUuid" Class="char">bd50b419-10d3-4c11-904c-4379df706578</P>
   </Object>
 </WindowsInfo>
 

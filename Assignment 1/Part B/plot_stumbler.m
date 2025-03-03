@@ -17,13 +17,31 @@ cgThigh     = model.cgThigh;    % [m]
 cgShank     = model.cgShank;    % [m]
 cgFoot      = model.cgFoot;     % [m]
 
-% % Part B: Brick coordinates
-% bx1         = model.bx1;
-% bx2         = model.bx2;
-% by1         = model.by1;
-% by2         = model.by2;
-% bz1         = model.bz1;
-% bz2         = model.bz2;
+% Part B: Brick coordinates
+bx1         = model.bx1;
+bx2         = model.bx2;
+by1         = model.by1;
+by2         = model.by2;
+bz1         = model.bz1;
+bz2         = model.bz2;
+
+%Definition of brick's vertices
+vertices = [bz1, bx1, by1;
+            bz1, bx2, by1;
+            bz1, bx2, by2;
+            bz1, bx1, by2;
+            bz2, bx1, by1;
+            bz2, bx2, by1;
+            bz2, bx2, by2;
+            bz2, bx1, by2];
+
+%definition of brick's faces
+brick_faces = [1, 2, 6, 5;
+               2, 3, 7, 6;
+               3, 4, 8, 7;
+               4, 1, 5, 8;
+               1, 2, 3, 4;
+               5, 6, 7, 8];
 
 for jj = [3, 1]
     for kk = 1:jj:length(X_out.time)
@@ -82,7 +100,20 @@ for jj = [3, 1]
         grid on
         title('3D view')
 
+        % Plot brick
+        hold on
+        patch('Vertices', vertices, 'Faces', brick_faces, ...
+            'FaceColor', [0.6 0.3 0.1], 'FaceAlpha', 0.7, 'EdgeColor', 'k');
+
+        hold off
+        axis([-1 1 -1 1 0 1])
+        view([1 0.5 0.5])
+        xlabel('z'); ylabel('x'); zlabel('y')
+        grid on
+        title('3D view')
+
         drawnow
+
     end
     pause(0.5)
 end
